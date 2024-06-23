@@ -1,6 +1,6 @@
 /*
 Una Empresa que vende “productos de seguridad industrial NicTech” nos convoca para la realización
- de una App que permita registrar los Pedidos de Artículos de los clientes.
+de una App que permita registrar los Pedidos de Artículos de los clientes.
 
 En esta etapa del desarrollo, solo deberemos realizar el módulo “Clientes”
 
