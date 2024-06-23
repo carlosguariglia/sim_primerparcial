@@ -1,4 +1,5 @@
 /*
+ENUNCIADO
 Una Empresa que vende “productos de seguridad industrial NicTech” nos convoca para la realización
 de una App que permita registrar los Pedidos de Artículos de los clientes.
 
@@ -16,7 +17,7 @@ Buscar un Clientes x código y mostrarlo (imprimir cartel de no encontrado).
 .  Todo esto mediante un Menú, Modularizando en Funciones, utilizando Archivos, arreglos y estructuras.
 
 
-NOTA IMPORTANTE:
+NOTA IMPORTANTE: (personal no parte del enunciado)
     por una cuestion de simplificar el manejo de datos se usaran solo strings simples sin espacios
     ej nombre valido = Juan, no valido Juan Perez
     lo mismo que el nombre de la ciudad: valido = Mardel y no valido = Mar del plata
@@ -125,24 +126,12 @@ void loadFromfile(Container &ListaClientes)
     ifstream file("customers.txt");
     if (file.is_open()) 
     {
-           
-        int flag = 0;           // variable para leer el primer elemento (esta parte esta implementada porque si se borran todos los datos, al guardar el archivo guarda el vacio)
-        file >> flag;           // lee el primer elemento del archivo
-        if (flag != 0)          // si el primer elemento es distinto de cero, el archivo tiene datos
-        {   
-            ListaClientes.customers[0].code=flag;               // el primer elemento que lei es el codigo del primer cliente entonces lo agrego al primer lugar del array [0]
-            file >> ListaClientes.customers[0].name >> ListaClientes.customers[0].city;  // leo los datos que siguen nombre y ciudad
-            ListaClientes.numCustomers++;                       // aumento el contador de clientes
-            
-            while (!file.eof())                                 // leo los demas elementos hasta el fin del archivo (eof = end of file) 
-            {
+        while (!file.eof())                                 // leo los demas elementos hasta el fin del archivo (eof = end of file) 
+        {
             file >> ListaClientes.customers[ListaClientes.numCustomers].code >> ListaClientes.customers[ListaClientes.numCustomers].name >> ListaClientes.customers[ListaClientes.numCustomers].city;
             ListaClientes.numCustomers++;                       // cada vez que leo un elemento, aumento el contador de clientes
-            }
-            file.close();
-
-        } 
-    
+        }
+        file.close();
     } 
     else 
     {
@@ -160,7 +149,7 @@ void loadFromfile(Container &ListaClientes)
         {
             cout << "Saliendo..." << endl;
             pauseConsole();
-            exit(1);                                                        // sale 
+            exit(1);                                                        // sale del programa devolviendo un 1 marcando error
         }
         
     }
@@ -169,9 +158,9 @@ void loadFromfile(Container &ListaClientes)
 void saveToFile(Container &ListaClientes)
 {
     ofstream file("customers.txt");
-    if (file.is_open()) 
+    if (file.is_open())                         // funcion interna del fstream para abrir el archivo devuelve true si se pudo abrir
     {   
-        if (ListaClientes.numCustomers != 0) 
+        if (ListaClientes.numCustomers != 0) // si la lista es distinta de cero entonces procedo a guardar
         {
             /* Guardo los clientes al archivo menos el ultimo, y luego 
             guardo el ultimo sin usar endl para que no agregue una fila mas al archivo*/
@@ -183,12 +172,12 @@ void saveToFile(Container &ListaClientes)
             file << ListaClientes.customers[ListaClientes.numCustomers-1].code << " " << ListaClientes.customers[ListaClientes.numCustomers-1].name << " " << ListaClientes.customers[ListaClientes.numCustomers-1].city;
             file.close();
         }
-        else 
+        else        // si la lista es cero no hay clientes para guardar por lo que no se hace nada para evitar guardar basura
         {
             file.close();
         }
     }
-    else 
+    else            // si el archivo no se pudo abrir para escritura al dar file.is_open() = false
     {
         cout << "No se pudo Guardar el archivo." << endl;
         pauseConsole();
@@ -198,7 +187,7 @@ void saveToFile(Container &ListaClientes)
 void addCustomer(Container &ListaClientes) 
 {   
     clearConsole();
-    Customer newCustomer;
+    Customer newCustomer;                   // se crea un nuevo cliente
 
     if (ListaClientes.numCustomers == 0)    // si hay 0 clientes empieza con el 100
     {   
@@ -209,7 +198,7 @@ void addCustomer(Container &ListaClientes)
         newCustomer.code = (ListaClientes.customers[ListaClientes.numCustomers - 1].code) + 1;  // si ya hay clientes se le suma 1 al ultimo
     }
     
-    if (!(ListaClientes.numCustomers >= MAX_CUSTOMERS)) 
+    if (!(ListaClientes.numCustomers >= MAX_CUSTOMERS))   // se verifica que haya lugar para el nuevo cliente
     {   
         cout << "Ingrese el nombre del cliente: ";
         cin >> newCustomer.name; 
@@ -222,7 +211,7 @@ void addCustomer(Container &ListaClientes)
         pauseConsole();
         clearConsole();
     } 
-    else 
+    else   // al ser la cantidad de numCustomers mayor o igual a MAX_CUSTOMERS no se puede agregar mas clientes
     {
         cout << "No se pueden agregar más clientes. Maximo alcanzado." << endl;
         pauseConsole();
@@ -232,19 +221,19 @@ void addCustomer(Container &ListaClientes)
 
 void removeCustomer(Container &ListaClientes) 
 {
-    int code;
-    cout << "Ingrese el código del cliente a dar de baja: ";
-    cin >> code;
+    int code;                                                   // variable para pedir el codigo que se quiere borrar
+    cout << "Ingrese el código del cliente a dar de baja: ";    
+    cin >> code;    
     clearConsole();
-    for (int i = 0; i < ListaClientes.numCustomers; i++) 
+    for (int i = 0; i < ListaClientes.numCustomers; i++)        // busca el cliente en la lista desde 0 hasta la cantidad de clientes
     {
-        if (ListaClientes.customers[i].code == code) 
+        if (ListaClientes.customers[i].code == code)            // si lo encuentro
         {
-            for (int j = i; j < ListaClientes.numCustomers - 1; j++) 
+            for (int j = i; j < ListaClientes.numCustomers - 1; j++)     // este for recorre desde el lugar que se encontro (i) ahora asignado a j hasta la cantidad total de clientes menos 1
             {
-                ListaClientes.customers[j] = ListaClientes.customers[j + 1];
+                ListaClientes.customers[j] = ListaClientes.customers[j + 1];  // se le asigna a la posicion que se borro el valor de la posicion siguiente
             }
-            ListaClientes.numCustomers--;
+            ListaClientes.numCustomers--;           // se le resta uno a la cantidad de clientes
             cout << "Cliente eliminado correctamente." << endl;
             pauseConsole();
             clearConsole();
@@ -258,13 +247,13 @@ void removeCustomer(Container &ListaClientes)
 
 void updateCustomer(Container &ListaClientes) 
 {
-    int code;
+    int code;                                       // variable para buscar el cliente por su codigo
     cout << "Ingrese el código del cliente a modificar: ";
     cin >> code;
     clearConsole();
-    for (int i = 0; i < ListaClientes.numCustomers; i++) 
+    for (int i = 0; i < ListaClientes.numCustomers; i++)    // se busca el cliente desde 0 hasta la cantidad de clientes 
     {
-        if (ListaClientes.customers[i].code == code) 
+        if (ListaClientes.customers[i].code == code)    // si lo encuentra se imprime y luego se piden los datos para sobreescibirlos
         {
             cout << "El cliente a modificar es: " << endl;
             cout << endl;
@@ -280,7 +269,7 @@ void updateCustomer(Container &ListaClientes)
             cout << "Cliente modificado correctamente." << endl;
             pauseConsole();
             clearConsole();
-            return;
+            return;                             // sale de la funcion (sin retornar nada)
         }
     }
     cout << "Cliente no encontrado." << endl;
@@ -291,17 +280,17 @@ void updateCustomer(Container &ListaClientes)
 void listCustomers(Container const &ListaClientes) 
 {
     clearConsole();
-    if (ListaClientes.numCustomers != 0) 
+    if (ListaClientes.numCustomers != 0)       // revisa que haya clientes
     {
         cout << endl <<"Lista de clientes:" << endl;
         cout << "Codigo     Nombre      Ciudad" << endl;
-        for (int i = 0; i < ListaClientes.numCustomers; i++) 
+        for (int i = 0; i < ListaClientes.numCustomers; i++)        // recorre todos los clientes imprimiendo en cada iteracion de i
         {
             cout << ListaClientes.customers[i].code << " " << ListaClientes.customers[i].name << " " << ListaClientes.customers[i].city << endl;
         }
         cout << endl;
     } 
-    else 
+    else                    // al no haber clientes se informa
     {
         cout << endl << "No hay clientes registrados." << endl;
         pauseConsole();
