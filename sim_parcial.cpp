@@ -123,7 +123,7 @@ int main()
 
 void loadFromfile(Container &ListaClientes) 
 {
-    ifstream file("customers.txt");
+    ifstream file("archivocustomers.txt");
     if (file.is_open()) 
     {
         while (!file.eof())                                 // leo los demas elementos hasta el fin del archivo (eof = end of file) 
@@ -141,7 +141,7 @@ void loadFromfile(Container &ListaClientes)
         cin >> opcionNuevoArchivo;
         if (opcionNuevoArchivo == 1)                                        // si la respuesta es 1 crea el archivo
         {       
-            ofstream file("customers.txt");
+            ofstream file("archivocustomers.txt");
             file.close();
             cout << "Archivo creado correctamente." << endl;
         } 
@@ -157,7 +157,7 @@ void loadFromfile(Container &ListaClientes)
 
 void saveToFile(Container &ListaClientes)
 {
-    ofstream file("customers.txt");
+    ofstream file("archivocustomers.txt");
     if (file.is_open())                         // funcion interna del fstream para abrir el archivo devuelve true si se pudo abrir
     {   
         if (ListaClientes.numCustomers != 0) // si la lista es distinta de cero entonces procedo a guardar
