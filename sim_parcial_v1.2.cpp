@@ -84,9 +84,9 @@ void loadFromFile(Container &clientList)
         file.close();
     } else
     {
-        cout << "No se pudo abrir el archivo." << endl;
+        cout << "No se pudo abrir el archivo. Se creara al salir" << endl;
         pauseConsole();
-        exit(1);
+        clearConsole();
     }
 }
 
