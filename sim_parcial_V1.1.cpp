@@ -24,7 +24,7 @@ Buscar un Clientes x código y mostrarlo (imprimir cartel de no encontrado).
 using namespace std;
 
 const int MAX_CUSTOMERS = 100;  // Número máximo de clientes que podemos manejar
-
+                                // debe ser del tipo constante (const) para poder usarla como tamano arreglo
 // Estructura que representa a un cliente con código, nombre y ciudad
 struct Customer {
     int code;
